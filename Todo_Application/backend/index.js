@@ -26,6 +26,10 @@ mongoose
   })
   .catch((err) => console.error("Error connecting to MongoDB:", err));
 
+app.get("/", (req, res) => {
+  res.send({ message: "Server setup successfully." });
+});
+
 app.use(cors());
 
 app.use(bodyParser.json());

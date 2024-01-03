@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const taskController = require("../controllers/tasks");
-const token = require("../../backend/verifyToken");
+const token = require("./verifyToken");
 
 router.post("/create", token.verifyToken, taskController.createTask);
 router.get("/read/:task_id", token.verifyToken, taskController.getTask);

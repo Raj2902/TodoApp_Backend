@@ -16,7 +16,13 @@ mongoose
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then(() => console.log("Connected to MongoDB"))
+  .then(() => {
+    console.log("Connected to MongoDB");
+    const port = 3000;
+    app.listen(port, () => {
+      console.log(`Server listening on port ${port}`);
+    });
+  })
   .catch((err) => console.error("Error connecting to MongoDB:", err));
 
 app.use(cors());
@@ -27,8 +33,3 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use("/authentication", authRouter);
 app.use("/task", taskRouter);
 app.use("/profile", profileRouter);
-
-const port = 3000;
-app.listen(port, () => {
-  console.log(`Server listening on port ${port}`);
-});

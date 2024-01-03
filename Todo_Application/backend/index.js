@@ -28,7 +28,7 @@ app.use("/authentication", authRouter);
 app.use("/task", taskRouter);
 app.use("/profile", profileRouter);
 
-const port = 5000;
+const port = 3000;
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });

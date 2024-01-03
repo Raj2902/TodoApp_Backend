@@ -10,6 +10,7 @@ const profileRouter = require("./routes/profile");
 require("dotenv").config();
 const databaseUrl = process.env.DATABASE_URL;
 
+mongoose.set("strictQuery", false);
 // Connect to MongoDB
 mongoose
   .connect(databaseUrl, {

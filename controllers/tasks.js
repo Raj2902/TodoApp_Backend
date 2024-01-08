@@ -20,7 +20,7 @@ exports.getTask = async (req, res) => {
 
 exports.createTask = async (req, res) => {
   try {
-    console.log(req.body);
+    //console.log(req.body);
     req.body.user = req.user.userId;
     const task = new tasks(req.body);
     await task.save();

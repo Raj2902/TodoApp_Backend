@@ -78,3 +78,30 @@ exports.username = async (req, res) => {
     return res.status(500).json({ error: err.message });
   }
 };
+
+exports.changePassword = async (req, res) => {
+  try {
+    let checkCode = await User.findOne({
+      email: req.body.email,
+      code: req.body.code,
+    });
+    if (!checkCode) {
+      return res.status(400).json({ message: "The link had expired." });
+    } else {
+      const hash = await encryptPassword(req.body.password);
+      req.body.password = hash;
+      let changePass = await User.findOneAndUpdate(
+        { email: req.body.email },
+        {
+          password: req.body.password,
+        }
+      );
+      if (changePass) {
+        return res.json({ message: "Password Updated Successfully." });
+      }
+      return res.json({ message: "Failed changing the password." });
+    }
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+};

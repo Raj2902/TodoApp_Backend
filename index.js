@@ -7,6 +7,7 @@ const app = express();
 const authRouter = require("./routes/authentication");
 const taskRouter = require("./routes/tasks");
 const profileRouter = require("./routes/profile");
+const mailRouter = require("./routes/sendMail");
 require("dotenv").config();
 const databaseUrl = process.env.DATABASE_URL;
 
@@ -38,3 +39,4 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use("/authentication", authRouter);
 app.use("/task", taskRouter);
 app.use("/profile", profileRouter);
+app.use("/", mailRouter);

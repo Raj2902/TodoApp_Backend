@@ -1,5 +1,6 @@
 const nodemailer = require("nodemailer");
 const User = require("../models/user");
+require("dotenv").config();
 
 exports.sendMail = async (req, res) => {
   try {
@@ -12,7 +13,9 @@ exports.sendMail = async (req, res) => {
     if (updatedCode) {
       const transporter = nodemailer.createTransport({
         service: "gmail",
-        secure: true,
+        host: process.env.EMAIL_HOST,
+        port: process.env.EMAIL_PORT,
+        secure: process.env.EMAIL_SECURE === "true",
         auth: {
           user: "todoapp907@gmail.com",
           pass: "bfnlpjkjnnxkspwd",

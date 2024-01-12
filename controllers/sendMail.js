@@ -12,6 +12,7 @@ exports.sendMail = async (req, res) => {
     if (updatedCode) {
       const transporter = nodemailer.createTransport({
         service: "gmail",
+        secure: true,
         auth: {
           user: "todoapp907@gmail.com",
           pass: "bfnlpjkjnnxkspwd",
@@ -30,7 +31,7 @@ exports.sendMail = async (req, res) => {
         if (error) {
           console.error(error);
         } else {
-          //console.log("Email sent:", info.response);
+          console.log("Email sent:", info.response);
         }
       });
       setTimeout(async () => {

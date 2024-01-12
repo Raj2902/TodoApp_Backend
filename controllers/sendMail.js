@@ -13,17 +13,18 @@ exports.sendMail = async (req, res) => {
     if (updatedCode) {
       const transporter = nodemailer.createTransport({
         service: "gmail",
-        host: process.env.EMAIL_HOST,
-        port: process.env.EMAIL_PORT,
-        secure: process.env.EMAIL_SECURE === "true",
         auth: {
-          user: "todoapp907@gmail.com",
-          pass: "bfnlpjkjnnxkspwd",
+          type: "OAuth2",
+          user: process.env.EMAIL_USER,
+          clientId: process.env.EMAIL_CLIENT_ID,
+          clientSecret: process.env.EMAIL_CLIENT_SECRET,
+          refreshToken: process.env.EMAIL_REFRESH_TOKEN,
+          accessToken: process.env.EMAIL_ACCESS_TOKEN,
         },
       });
 
       const mailOptions = {
-        from: "todoapp907@gmail.com",
+        from: process.env.EMAIL_USER,
         to: `${req.params.email}`,
         subject: "Change Password",
         html: `<p>Click the link below to change your password only valid for 30s.</p>

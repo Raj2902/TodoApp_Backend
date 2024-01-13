@@ -40,3 +40,6 @@ app.use("/authentication", authRouter);
 app.use("/task", taskRouter);
 app.use("/profile", profileRouter);
 app.use("/", mailRouter);
+
+// Export the Express API
+module.exports = app;

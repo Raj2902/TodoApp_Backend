@@ -41,6 +41,3 @@ app.use("/", mailRouter);
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });
-
-// Export the Express API
-module.exports = app;

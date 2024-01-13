@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const port = 3000;
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const User = require("./models/user");
@@ -20,10 +21,6 @@ mongoose
   })
   .then(() => {
     console.log("Connected to MongoDB");
-    const port = 3000;
-    app.listen(port, () => {
-      console.log(`Server listening on port ${port}`);
-    });
   })
   .catch((err) => console.error("Error connecting to MongoDB:", err));
 
@@ -40,6 +37,10 @@ app.use("/authentication", authRouter);
 app.use("/task", taskRouter);
 app.use("/profile", profileRouter);
 app.use("/", mailRouter);
+
+app.listen(port, () => {
+  console.log(`Server listening on port ${port}`);
+});
 
 // Export the Express API
 module.exports = app;

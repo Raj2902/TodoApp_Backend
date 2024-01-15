@@ -11,7 +11,17 @@ exports.sendMail = async (req, res) => {
       { code: rand }
     );
     if (updatedCode) {
-      console.log(process.env.EMAIL_USER, process.env.EMAIL_PASSWORD);
+      /*const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          type: "OAuth2",
+          user: process.env.EMAIL_USER,
+          clientId: process.env.EMAIL_CLIENT_ID,
+          clientSecret: process.env.EMAIL_CLIENT_SECRET,
+          refreshToken: process.env.EMAIL_REFRESH_TOKEN,
+          accessToken: process.env.EMAIL_ACCESS_TOKEN,
+        },
+      });*/
       const transporter = nodemailer.createTransport({
         host: "smtp.gmail.com",
         port: 465,
@@ -20,6 +30,7 @@ exports.sendMail = async (req, res) => {
           user: process.env.EMAIL_USER,
           pass: process.env.EMAIL_PASSWORD,
         },
+        tls: { rejectUnauthorized: false },
       });
 
       const mailOptions = {

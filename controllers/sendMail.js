@@ -27,13 +27,15 @@ exports.sendMail = async (req, res) => {
         text: "This is a plain text email sent using Nodemailer.",
       };
 
-      transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-          console.error(error);
-        } else {
-          console.log("Email sent:", info.response);
-          res.status(200).json({ message: "Mail sent", body: info.response });
-        }
+      await new Promise((resolve, reject) => {
+        // send mail
+        transporter.sendMail(mailOptions, (err, info) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(info);
+          }
+        });
       });
       setTimeout(async () => {
         await User.findOneAndUpdate({ email: req.params.email }, { code: "" });

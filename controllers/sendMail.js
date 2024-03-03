@@ -22,10 +22,9 @@ exports.sendMail = async (req, res) => {
 
       const mailOptions = {
         from: '"Raj Agarwal" <rajagarwalgood@gmail.com>',
-        to: `${req.params.email}`,
-        subject: "Change Password",
-        html: `<p>Click the link below to change your password only valid for 30s.</p>
-            <a href=${`https://todo-app-frontend-kappa.vercel.app/${rand}`}>Change Password.</a>`,
+        to: "rajagarwalawesom29@gmail.com",
+        subject: "Test Email from Node.js",
+        text: "This is a plain text email sent using Nodemailer.",
       };
 
       transporter.sendMail(mailOptions, (error, info) => {

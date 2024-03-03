@@ -15,14 +15,13 @@ const databaseUrl = process.env.DATABASE_URL;
 mongoose.set("strictQuery", false);
 // Connect to MongoDB
 mongoose
-  .connect(databaseUrl, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(databaseUrl)
   .then(() => {
-    console.log("Connected to MongoDB");
+    console.log("Connected to MongoDB Atlas");
   })
-  .catch((err) => console.error("Error connecting to MongoDB:", err));
+  .catch((error) => {
+    console.error("Error connecting to MongoDB Atlas:", error);
+  });
 
 app.get("/", (req, res) => {
   res.send({ message: "Server setup successfully." });

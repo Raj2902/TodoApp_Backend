@@ -11,34 +11,21 @@ exports.sendMail = async (req, res) => {
       { code: rand }
     );
     if (updatedCode) {
-      /*const transporter = nodemailer.createTransport({
-        service: "gmail",
-        auth: {
-          type: "OAuth2",
-          user: process.env.EMAIL_USER,
-          clientId: process.env.EMAIL_CLIENT_ID,
-          clientSecret: process.env.EMAIL_CLIENT_SECRET,
-          refreshToken: process.env.EMAIL_REFRESH_TOKEN,
-          accessToken: process.env.EMAIL_ACCESS_TOKEN,
-        },
-      });*/
+      // Credentials for a trusted email service provider (replace with your own)
       const transporter = nodemailer.createTransport({
-        host: "smtp.gmail.com",
-        port: 465,
-        secure: true,
+        service: "gmail", // Use a reliable service like Gmail or SendGrid
         auth: {
-          user: process.env.EMAIL_USER,
-          pass: process.env.EMAIL_PASSWORD,
+          user: "rajagarwalgood@gmail.com",
+          pass: "mujy wgvo iyyd bvxe",
         },
-        tls: { rejectUnauthorized: false },
       });
 
       const mailOptions = {
-        from: process.env.EMAIL_USER,
+        from: '"Raj Agarwal" <rajagarwalgood@gmail.com>',
         to: `${req.params.email}`,
         subject: "Change Password",
         html: `<p>Click the link below to change your password only valid for 30s.</p>
-            <a href=${`https://todo-app-frontend-kappa.vercel.app/${rand}`}>Change Password.</b>`,
+            <a href=${`https://todo-app-frontend-kappa.vercel.app/${rand}`}>Change Password.</a>`,
       };
 
       transporter.sendMail(mailOptions, (error, info) => {
@@ -46,6 +33,7 @@ exports.sendMail = async (req, res) => {
           console.error(error);
         } else {
           console.log("Email sent:", info.response);
+          res.status(200).json({ message: "Mail sent", body: info.response });
         }
       });
       setTimeout(async () => {

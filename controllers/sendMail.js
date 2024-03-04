@@ -1,14 +1,16 @@
 const nodemailer = require("nodemailer");
 const User = require("../models/user");
+const Code = require("../models/code");
+const { json } = require("body-parser");
 require("dotenv").config();
 
 exports.codeEmail = async (req, res) => {
   try {
-    let user = await User.findOne({ code: req.params.code });
+    let user = await Code.findOne({ code: req.params.code });
     if (!user) {
       return res.status(400).json({ error: "User not found" });
     } else {
-      return res.status(200).json({ email: user.email });
+      return res.status(200).json({ user_id: user.user_id });
     }
   } catch (err) {
     return res.status(500).json({ error: err.message });
@@ -18,12 +20,11 @@ exports.codeEmail = async (req, res) => {
 exports.sendMail = async (req, res) => {
   try {
     let rand = Math.random();
-
-    let updatedCode = await User.findOneAndUpdate(
-      { email: req.params.email },
-      { code: rand }
-    );
-    if (updatedCode) {
+    let findUser = await User.findOne({ email: req.params.email });
+    if (findUser) {
+      let data = { user_id: findUser._id, code: rand };
+      const codeCreate = new Code(data);
+      await codeCreate.save();
       // Credentials for a trusted email service provider (replace with your own)
       const transporter = nodemailer.createTransport({
         service: "gmail", // Use a reliable service like Gmail or SendGrid
@@ -97,10 +98,7 @@ exports.sendMail = async (req, res) => {
           }
         });
       });
-      setTimeout(async () => {
-        await User.findOneAndUpdate({ email: req.params.email }, { code: "" });
-        console.log("code update null");
-      }, 300000);
+
       return res.status(200).json({
         message: "Mail send successfully",
         link: `https://todo-app-frontend-kappa.vercel.app/${rand}`,

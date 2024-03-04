@@ -1,5 +1,6 @@
 const User = require("../models/user");
 const jwt = require("jsonwebtoken");
+const Code = require("../models/code");
 require("dotenv").config();
 const secretKey = process.env.SECRET_KEY;
 
@@ -81,8 +82,7 @@ exports.username = async (req, res) => {
 
 exports.changePassword = async (req, res) => {
   try {
-    let checkCode = await User.findOne({
-      email: req.body.email,
+    let checkCode = await Code.findOne({
       code: req.body.code,
     });
     if (!checkCode) {
@@ -90,12 +90,9 @@ exports.changePassword = async (req, res) => {
     } else {
       const hash = await encryptPassword(req.body.password);
       req.body.password = hash;
-      let changePass = await User.findOneAndUpdate(
-        { email: req.body.email },
-        {
-          password: req.body.password,
-        }
-      );
+      let changePass = await User.findByIdAndUpdate(checkCode.user_id, {
+        password: req.body.password,
+      });
       if (changePass) {
         return res.json({ message: "Password Updated Successfully." });
       }

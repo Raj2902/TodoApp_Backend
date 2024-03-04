@@ -14,10 +14,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  code: {
-    type: String,
-    default: "",
-  },
+  createdAt: { type: Date, expires: 30, default: Date.now },
 });
 
 module.exports = mongoose.model("User", userSchema);

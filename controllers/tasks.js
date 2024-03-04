@@ -54,3 +54,23 @@ exports.deleteTask = async (req, res) => {
     res.status(500).json({ error: "Failed to delete task" }); // Generic error response
   }
 };
+
+//only admin can delete all the tasks together (yet to restrict for other users)
+exports.deleteAllTask = async (req, res) => {
+  try {
+    const findUser = await tasks.findOne({ user: req.params.user_id });
+
+    if (!findUser) {
+      res.status(404).json({ error: "User not found" }); // Handle not found case
+    } else {
+      const deleteAllTask = await tasks.deleteMany({
+        user: req.params.user_id,
+      });
+      console.log(deleteAllTask);
+      res.json({ message: "All Tasks deleted successfully" });
+    }
+  } catch (err) {
+    console.error(err); // Log the error for debugging
+    res.status(500).json({ error: "Failed to delete all tasks" }); // Generic error response
+  }
+};
